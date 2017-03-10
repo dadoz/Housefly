@@ -5,7 +5,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.application.subitoit.githubstargazers"
+        applicationId "com.application.davidelm.housefly"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
