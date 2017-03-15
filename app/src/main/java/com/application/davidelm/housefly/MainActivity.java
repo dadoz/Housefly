@@ -6,23 +6,33 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.application.davidelm.housefly.application.HouseflyApplication;
+import com.application.davidelm.housefly.managers.HtmlPageParser;
 import com.application.davidelm.housefly.views.RepoOwnerDataView;
 import com.application.subitoit.githubstargazers.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    @BindView(R.id.repoOwnerDataViewId)
     RepoOwnerDataView repoOwnerDataView;
+    private Unbinder binder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        binder = ButterKnife.bind(this);
 
-        bindView();
         onInitView();
     }
 
-    private void bindView() {
-        repoOwnerDataView = (RepoOwnerDataView) findViewById(R.id.repoOwnerDataViewId);
+    @Override
+    protected void onDestroy() {
+        if (binder != null)
+            binder.unbind();
+        super.onDestroy();
     }
 
     /**
@@ -30,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void onInitView() {
         repoOwnerDataView.setFindButtonOnClickListener(this);
+        new HtmlPageParser().parseHtml();
     }
 
     @Override

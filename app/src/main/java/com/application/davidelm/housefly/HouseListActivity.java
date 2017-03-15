@@ -20,35 +20,41 @@ import com.application.subitoit.githubstargazers.R;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 public class HouseListActivity extends AppCompatActivity implements HouseView {
     private String owner;
     private String repo;
+    @BindView(R.id.stargazerRecyclerViewId)
     RecyclerView recyclerView;
+    @BindView(R.id.stargazerProgressbarId)
     ProgressBar progressBar;
+    @BindView(R.id.emptyViewId)
     EmptyView emptyView;
 
     private HousePresenter presenter;
+    private Unbinder binder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stargazers_list);
+        binder = ButterKnife.bind(this);
 
         repo = ((HouseflyApplication) getApplication()).getRepo();
         owner = ((HouseflyApplication) getApplication()).getOwner();
 
-        bindView();
         onInitView();
     }
 
-    /**
-     *
-     */
-    private void bindView() {
-        recyclerView = (RecyclerView) findViewById(R.id.stargazerRecyclerViewId);
-        progressBar = (ProgressBar) findViewById(R.id.stargazerProgressbarId);
-        emptyView = (EmptyView) findViewById(R.id.emptyViewId);
+    @Override
+    protected void onDestroy() {
+        if (binder != null)
+            binder.unbind();
+        super.onDestroy();
     }
 
     /**
